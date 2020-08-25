@@ -2,13 +2,15 @@ import React, { Component } from 'react';
 import Navbar from './components/layout/Navbar.js';
 import Users from './components/users/Users.js';
 import Search from './components/users/Search.js';
+import Alert from './components/layout/Alert.js';
 import axios from 'axios';
 import './App.css';
 
 class App extends Component {
   state = {
     users: [],
-    loading: false
+    loading: false,
+    alert: null
   }
 
   // search github users
@@ -28,6 +30,13 @@ class App extends Component {
     });
   }
 
+  // set alert
+  setAlert = (msg, type) => {
+    this.setState({ alert: {msg: msg, type: type} });
+
+    setTimeout(() => this.setState({ alert: null }), 3000);
+  }
+
   render () {
     const { users, loading } = this.state;
 
@@ -35,7 +44,8 @@ class App extends Component {
       <div className="App">
         <Navbar />
         <div className="container">
-          <Search clearUsers={this.clearUsers} searchUsers={this.searchUsers} showClear={ users.length > 0 ? true: false } />
+          <Alert alert={this.state.alert} />
+          <Search setAlert={this.setAlert} clearUsers={this.clearUsers} searchUsers={this.searchUsers} showClear={ users.length > 0 ? true: false } />
           <Users loading={loading} users={users} />
         </div>
       </div>
