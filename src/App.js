@@ -7,6 +7,7 @@ import Search from './components/users/Search.js';
 import Alert from './components/layout/Alert.js';
 import About from './components/pages/About.js';
 import axios from 'axios';
+import GithubState from './context/github/GithubState.js';
 import './App.css';
 
 const App = () => {
@@ -59,26 +60,28 @@ const App = () => {
   }
 
   return (
-    <Router>
-      <div className="App">
-        <Navbar />
-        <div className="container">
-          <Alert alert={alert} />
-          <Switch>
-            <Route exact path='/' render={props => (
-              <Fragment>
-                <Search setAlert={showAlert} clearUsers={clearUsers} searchUsers={searchUsers} showClear={users.length > 0 ? true : false} />
-                <Users loading={loading} users={users} />
-              </Fragment>
-            )} />
-            <Route exact path='/about' component={About} />
-            <Route exact path='/user/:login' render={props => (
-              <User {...props} getUser={getUser} getUserRepos={getUserRepos} repos={repos} user={user} loading={loading} />
-            )} />
-          </Switch>
+    <GithubState>
+      <Router>
+        <div className="App">
+          <Navbar />
+          <div className="container">
+            <Alert alert={alert} />
+            <Switch>
+              <Route exact path='/' render={props => (
+                <Fragment>
+                  <Search setAlert={showAlert} clearUsers={clearUsers} searchUsers={searchUsers} showClear={users.length > 0 ? true : false} />
+                  <Users loading={loading} users={users} />
+                </Fragment>
+              )} />
+              <Route exact path='/about' component={About} />
+              <Route exact path='/user/:login' render={props => (
+                <User {...props} getUser={getUser} getUserRepos={getUserRepos} repos={repos} user={user} loading={loading} />
+              )} />
+            </Switch>
+          </div>
         </div>
-      </div>
-    </Router>
+      </Router>
+    </GithubState>
   );
 }
 
