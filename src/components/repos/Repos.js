@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import RepoItem from './RepoItem.js';
+import RepoItem from './RepoItem';
 
 
 const Repos = ({ repos }) => {
